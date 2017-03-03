@@ -26,6 +26,9 @@ import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
 import passport from './core/passport';
 import models from './data/models';
+
+import { connectPrimaryData } from './data/mongo';
+
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
@@ -34,6 +37,8 @@ import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
 
 const app = express();
+
+connectPrimaryData('mongodb://localhost:27017/tests', {});
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the

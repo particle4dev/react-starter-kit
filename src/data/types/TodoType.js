@@ -8,23 +8,18 @@
  */
 
 import {
-  GraphQLSchema as Schema,
   GraphQLObjectType as ObjectType,
+  GraphQLID as ID,
+  GraphQLString as StringType,
+  GraphQLNonNull as NonNull,
 } from 'graphql';
 
-import me from './queries/me';
-import news from './queries/news';
-import todos from './queries/todos';
-
-const schema = new Schema({
-  query: new ObjectType({
-    name: 'Query',
-    fields: {
-      me,
-      news,
-      todos,
-    },
-  }),
+const TodoType = new ObjectType({
+  name: 'Todo',
+  fields: {
+    id: { type: new NonNull(ID) },
+    title: { type: StringType },
+  },
 });
 
-export default schema;
+export default TodoType;
