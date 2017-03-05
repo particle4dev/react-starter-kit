@@ -84,7 +84,12 @@ class Home extends React.Component {
             <NewTask open onClick={this.createNewTask} />
             {/** <AddButton onClick={this.onClick} />*/}
             {!loading && todos.map(item => (
-              <Row key={item.id} id={item.id} title={item.title} onUpdate={() => this.props.makeTaskDone(item.id)} onRemove={() => this.props.deleteTask(item.id)} done={item.done} />
+              <Row key={item.id}
+                id={item.id}
+                title={item.title}
+                onUpdate={() => this.props.makeTaskDone(item.id)}
+                onRemove={() => this.props.deleteTask(item.id)}
+                done={item.done} />
             ))}
           </Container>
           {loading ? 'Loading...' : news.map(item => (

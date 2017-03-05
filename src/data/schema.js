@@ -15,6 +15,9 @@ import {
 import me from './queries/me';
 import news from './queries/news';
 import todos from './queries/todos';
+import users from './queries/users';
+
+import getTask from './queries/getTask';
 import makeTaskDone from './mutation/makeTaskDone';
 import createNewTask from './mutation/createNewTask';
 import deleteTask from './mutation/deleteTask';
@@ -24,8 +27,10 @@ const schema = new Schema({
     name: 'RootQuery',
     fields: {
       me,
+      users,
       news,
       todos,
+      getTask,
     },
   }),
   mutation: new ObjectType({

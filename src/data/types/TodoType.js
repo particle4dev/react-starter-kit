@@ -15,12 +15,17 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
+import UserType from './UserType';
+
 const TodoType = new ObjectType({
   name: 'Todo',
   fields: {
     id: { type: new NonNull(ID) },
     title: { type: StringType },
     done: { type: Boolean },
+    // owner: {
+      // type: UserType
+    // }
   },
 });
 

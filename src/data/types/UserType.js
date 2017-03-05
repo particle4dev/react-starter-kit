@@ -12,13 +12,23 @@ import {
   GraphQLID as ID,
   GraphQLString as StringType,
   GraphQLNonNull as NonNull,
+  GraphQLList
 } from 'graphql';
+
+import TodoType from './TodoType';
 
 const UserType = new ObjectType({
   name: 'User',
   fields: {
     id: { type: new NonNull(ID) },
-    email: { type: StringType },
+    username: { type: StringType },
+    tasks: {
+      type: new GraphQLList(TodoType),
+      description: 'My todo task',
+      resolve: function() {
+        return [];
+      }
+    }
   },
 });
 
