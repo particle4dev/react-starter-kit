@@ -13,6 +13,7 @@ import UserLogin from './UserLogin';
 import UserClaim from './UserClaim';
 import UserProfile from './UserProfile';
 import TodosModel from './Todos';
+import UsersModel from './UsersModel';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -41,4 +42,4 @@ function sync(...args) {
 
 export default { sync };
 
-export { User, UserLogin, UserClaim, UserProfile, TodosModel };
+export { User, UserLogin, UserClaim, UserProfile, TodosModel, UsersModel };

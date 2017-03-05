@@ -7,33 +7,23 @@ import {
 const { Schema } = mongoose;
 const { Types: { ObjectId } } = Schema;
 
-const TodoSchema = new Schema({
-  title: {
+const UserSchema = new Schema({
+  username: {
     type: String,
     required: true,
   },
-  done: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  owner: {
-    type: ObjectId,
-    ref: 'User',
-    required: true
-  }
 });
 
 // indexes
-// TodoSchema.index({
+// UserSchema.index({
 //   'title': 1
 // });
 
 // plugins
-TodoSchema.plugin(timestamps);
+UserSchema.plugin(timestamps);
 
 // methods
-// TodoSchema.statics.createANewToken = function () {}
+// UserSchema.statics.createANewToken = function () {}
 
 let model = null;
 
@@ -42,19 +32,16 @@ export default function (mongoose) {
     if (!mongoose) {
       mongoose = connectPrimaryData();
     }
-    model = mongoose.model('Todo', TodoSchema);
-
+    model = mongoose.model('User', UserSchema);
     // setTimeout(async () => {
-    //   if (await model.count() <= 5) {
-    //     for (let i = 0; i <= 5; i++) {
+    //   if (await model.count() < 1) {
+    //     for (let i = 0; i < 1; i++) {
     //       await model.create({
-    //         title: `go to sleep ${i}`,
-    //         done: false,
-    //         owner: '58bc301af30fc10b953fb094',
+    //         _id: new ObjectId('58bc301af30fc10b953fb094'),
+    //         username: `particle4dev`
     //       });
     //     }
     //   }
-    //   console.log(await model.remove({}));
     //   console.log(await model.find({}));
     // }, 0);
   }

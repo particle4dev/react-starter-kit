@@ -53,6 +53,7 @@ export function connect(uri, options, cb) {
 let primaryData = null;
 import {
   TodosModel,
+  UsersModel,
 } from './models';
 
 export function connectPrimaryData(uri, options) {
@@ -64,6 +65,7 @@ export function connectPrimaryData(uri, options) {
     primaryData = connect(uri, options, () => {});
 
     TodosModel(primaryData);
+    UsersModel(primaryData);
   }
   return primaryData;
 }
