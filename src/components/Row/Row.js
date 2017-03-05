@@ -1,6 +1,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import styles from './Row.css';
+import Link from '../Link';
 
 function Row({ ...props }) {
   let { id, title, onRemove, onUpdate, done } = props;
@@ -18,7 +19,9 @@ function Row({ ...props }) {
       <a className={styles.completed} href="javascript:void(0)" onClick={onUpdate}>
         <i className="fa fa-check" />
       </a>
-      { title }
+      <Link to={`tasks/${id}`}>
+        { title }
+      </Link>
     </li>
   );
 }
