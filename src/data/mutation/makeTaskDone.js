@@ -6,19 +6,18 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
-import TodoType from '../types/TodoType';
+import TodoSchemas from '../schemas/TodoSchemas';
 import TodosModel from '../models/Todos';
 
 const makeTaskDone = {
-  type: TodoType,
+  type: TodoSchemas,
   args: {
-    id: { type: StringType },
+    _id: { type: StringType },
   },
-  resolve: async ({ request }, { id }) => {
-    const r = await TodosModel().update({ _id: id }, { $set: { done: true } });
+  resolve: async ({ request }, { _id }) => {
     console.warn('handing error');
-
-    return await TodosModel().findOne({ _id: id });
+    const r = await TodosModel().update({ _id }, { $set: { done: true } });
+    return await TodosModel().findOne({ _id });
   },
 };
 

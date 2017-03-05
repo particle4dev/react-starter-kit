@@ -27,24 +27,24 @@ const newsQuery = gql`query newsQuery {
   }
 }`;
 
-const makeTaskDone = gql`mutation makeTaskDone ($id: String!) {
-  makeTaskDone(id: $id) {
-    id,
+const makeTaskDone = gql`mutation makeTaskDone ($_id: String!) {
+  makeTaskDone(_id: $_id) {
+    _id,
     done
   }
 }`;
 
 const createNewTask = gql`mutation createNewTask ($title: String!) {
   createNewTask(title: $title) {
-    id,
+    _id,
     title,
     done
   }
 }`;
 
-const deleteTask = gql`mutation deleteTask ($id: String!) {
-  deleteTask(id: $id) {
-    id
+const deleteTask = gql`mutation deleteTask ($_id: String!) {
+  deleteTask(_id: $_id) {
+    _id
   }
 }`;
 
@@ -79,11 +79,11 @@ class Home extends React.Component {
             <NewTask open onClick={this.createNewTask} />
             {/** <AddButton onClick={this.onClick} />*/}
             {!loading && todos.map(item => (
-              <Row key={item.id}
-                id={item.id}
+              <Row key={item._id}
+                _id={item._id}
                 title={item.title}
-                onUpdate={() => this.props.makeTaskDone(item.id)}
-                onRemove={() => this.props.deleteTask(item.id)}
+                onUpdate={() => this.props.makeTaskDone(item._id)}
+                onRemove={() => this.props.deleteTask(item._id)}
                 done={item.done} />
             ))}
           </Container>
@@ -99,7 +99,7 @@ export default compose(
   graphql(newsQuery),
   graphql(makeTaskDone, {
     props: ({ mutate }) => ({
-      makeTaskDone: id => mutate({ variables: { id } }),
+      makeTaskDone: _id => mutate({ variables: { _id } }),
     }),
   }),
   graphql(createNewTask, {
@@ -114,8 +114,8 @@ export default compose(
   }),
   graphql(deleteTask, {
     props: ({ mutate }) => ({
-      deleteTask: id => mutate({
-        variables: { id },
+      deleteTask: _id => mutate({
+        variables: { _id },
         refetchQueries: [{
           query: newsQuery,
         }],

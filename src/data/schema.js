@@ -12,7 +12,6 @@ import {
   GraphQLObjectType as ObjectType,
 } from 'graphql';
 
-import me from './queries/me';
 import todos from './queries/todos';
 import users from './queries/users';
 
@@ -24,7 +23,6 @@ const schema = new Schema({
   query: new ObjectType({
     name: 'RootQuery',
     fields: {
-      me,
       users,
       todos,
     },

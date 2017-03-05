@@ -4,9 +4,9 @@ import styles from './Row.css';
 import Link from '../Link';
 
 function Row({ ...props }) {
-  let { id, title, onRemove, onUpdate, done } = props;
-  onRemove = onRemove.bind(null, id);
-  onUpdate = onUpdate.bind(null, id, !done);
+  let { _id, title, onRemove, onUpdate, done } = props;
+  onRemove = onRemove.bind(null, _id);
+  onUpdate = onUpdate.bind(null, _id, !done);
   const className = [styles.row, styles.uiSortableHelper];
   if (done) {
     className.push(styles.done);
@@ -19,7 +19,7 @@ function Row({ ...props }) {
       <a className={styles.completed} href="javascript:void(0)" onClick={onUpdate}>
         <i className="fa fa-check" />
       </a>
-      <Link to={`tasks/${id}`}>
+      <Link to={`tasks/${_id}`}>
         { title }
       </Link>
     </li>

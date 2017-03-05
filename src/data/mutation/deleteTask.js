@@ -6,19 +6,19 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
-import TodoType from '../types/TodoType';
+import TodoSchemas from '../schemas/TodoSchemas';
 import TodosModel from '../models/Todos';
 
 const deleteTask = {
-  type: TodoType,
+  type: TodoSchemas,
   args: {
-    id: { type: StringType },
+    _id: { type: StringType },
   },
-  resolve: async ({ request }, { id }) => {
+  resolve: async ({ request }, { _id }) => {
     console.warn('handing error');
-    await TodosModel().remove({ _id: id });
+    await TodosModel().remove({ _id });
     return {
-      id,
+      _id,
     };
   },
 };

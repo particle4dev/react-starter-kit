@@ -4,7 +4,7 @@ const client = new ApolloClient({
   networkInterface: createNetworkInterface({
     uri: '/graphql',
   }),
-  dataIdFromObject: o => o.id,
+  dataIdFromObject: o => o._id,
   queryDeduplication: true,
   reduxRootSelector: state => state.apollo,
 });

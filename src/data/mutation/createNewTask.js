@@ -6,11 +6,11 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
-import TodoType from '../types/TodoType';
+import TodoSchemas from '../schemas/TodoSchemas';
 import TodosModel from '../models/Todos';
 
 const createNewTask = {
-  type: TodoType,
+  type: TodoSchemas,
   args: {
     title: { type: StringType },
   },
