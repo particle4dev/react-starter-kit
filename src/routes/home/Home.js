@@ -20,13 +20,8 @@ import s from './Home.css';
 import gql from 'graphql-tag';
 
 const newsQuery = gql`query newsQuery {
-  news {
-    title,
-    link,
-    content
-  }
   todos (limit: 3) {
-    id,
+    _id,
     title,
     done
   }
@@ -75,7 +70,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { data: { loading, news, todos } } = this.props;
+    const { data: { loading, todos } } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
@@ -92,12 +87,6 @@ class Home extends React.Component {
                 done={item.done} />
             ))}
           </Container>
-          {loading ? 'Loading...' : news.map(item => (
-            <article key={item.link} className={s.newsItem}>
-              <h1 className={s.newsTitle}><a href={item.link}>{item.title}</a></h1>
-            </article>
-          ))}
-
         </div>
       </div>
     );
