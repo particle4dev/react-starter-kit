@@ -1,24 +1,20 @@
-/*eslint-disable */
 import {
   GraphQLInt as IntType,
   GraphQLString as StringType,
   GraphQLList,
 } from 'graphql';
-import TodoType from '../types/TodoType';
+import TodoSchemas from '../schemas/TodoSchemas';
 import {
   TodosModel,
 } from '../models';
 
+console.warn('implement paging todos');
+
 const todos = {
-  type: new GraphQLList(TodoType),
-  args: {
-    // cursor: { type: StringType },
-    limit: { type: IntType },
+  type: new GraphQLList(TodoSchemas),
+  resolve({ request }) {
+    return TodosModel().find({});
   },
-  resolve: async (obj, { limit }) => {
-    return await TodosModel().find().limit(limit).sort({createdAt: -1}); // eslint-disable-line max-len no-return-await
-  }
 };
 
 export default todos;
-/*eslint-enable */
