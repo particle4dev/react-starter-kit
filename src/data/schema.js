@@ -12,8 +12,7 @@ import {
   GraphQLObjectType as ObjectType,
 } from 'graphql';
 
-import todos from './queries/todos';
-import users from './queries/users';
+import queries from './queries';
 
 import makeTaskDone from './mutation/makeTaskDone';
 import createNewTask from './mutation/createNewTask';
@@ -22,10 +21,7 @@ import deleteTask from './mutation/deleteTask';
 const schema = new Schema({
   query: new ObjectType({
     name: 'RootQuery',
-    fields: {
-      users,
-      todos,
-    },
+    fields: queries,
   }),
   mutation: new ObjectType({
     name: 'RootMutation',

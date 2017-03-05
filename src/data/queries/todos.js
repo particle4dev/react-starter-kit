@@ -16,7 +16,7 @@ const todos = {
     limit: { type: IntType },
   },
   resolve({ request }, {limit}) {
-    return TodosModel().find({}).limit(limit);
+    return TodosModel().find({}).limit(limit).sort({createdAt: -1});
   },
 };
 

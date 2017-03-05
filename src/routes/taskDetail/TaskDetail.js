@@ -13,11 +13,14 @@ import { graphql, compose } from 'react-apollo';
 import s from './TaskDetail.css';
 
 import gql from 'graphql-tag';
-const getTask = gql`query getTask ($id: String!) {
-  Todo (id: $id) {
-    id,
+const getTask = gql`query todo ($_id: String!) {
+  todo (_id: $_id) {
+    _id,
     title,
-    done
+    done,
+    owner {
+      username
+    }
   }
 }`;
 
@@ -27,14 +30,17 @@ class TaskDetail extends React.Component {
   };
 
   render() {
-    const {title, data: { todo }} = this.props;
-    console.log(this.props);
+    const {title, data: { loading, todo }} = this.props;
+    console.log(loading, 'loading');
     return (
       <div className={s.root}>
-        <div className={s.container}>
-          <h1>{this.props.title}</h1>
-          <p>...</p>
-        </div>
+        {!loading && <div className={s.container}>
+          <h1>{title}</h1>
+          <p>id: {todo._id}</p>
+          <p>title: {todo.title}</p>
+          <p>done: {todo.done}</p>
+          <p>owner.username: {todo.owner.username}</p>
+        </div>}
       </div>
     );
   }
@@ -46,7 +52,7 @@ export default compose(
     options: (ownProps) => {
       return {
         variables: {
-          id: ownProps.taskId
+          _id: ownProps.taskId
         }
       };
     }
