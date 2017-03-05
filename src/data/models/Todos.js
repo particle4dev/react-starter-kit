@@ -14,6 +14,7 @@ const TodoSchema = new Schema({
   done: {
     type: Boolean,
     required: true,
+    default: false
   },
 });
 
@@ -36,6 +37,8 @@ export default function (mongoose) {
       mongoose = connectPrimaryData();
     }
     model = mongoose.model('Todo', TodoSchema);
+
+    /**
     setTimeout(async () => {
       if (await model.count() <= 5) {
         for (let i = 0; i <= 5; i++) {
@@ -47,6 +50,7 @@ export default function (mongoose) {
       }
       console.log(await model.find({}));
     }, 0);
+    */
   }
   return model;
 }

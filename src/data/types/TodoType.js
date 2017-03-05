@@ -12,6 +12,7 @@ import {
   GraphQLID as ID,
   GraphQLString as StringType,
   GraphQLNonNull as NonNull,
+  GraphQLBoolean as Boolean,
 } from 'graphql';
 
 const TodoType = new ObjectType({
@@ -19,6 +20,7 @@ const TodoType = new ObjectType({
   fields: {
     id: { type: new NonNull(ID) },
     title: { type: StringType },
+    done: { type: Boolean },
   },
 });
 

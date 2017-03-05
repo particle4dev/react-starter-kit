@@ -1,0 +1,6 @@
+{
+  "name": "AddButton",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AddButton.js"
+}
