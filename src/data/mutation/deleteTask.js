@@ -7,7 +7,7 @@ import {
 } from 'graphql';
 
 import TodoSchemas from '../schemas/TodoSchemas';
-import TodosModel from '../models/Todos';
+import { TodosModel } from '../models';
 
 const deleteTask = {
   type: TodoSchemas,

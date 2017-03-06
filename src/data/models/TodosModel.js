@@ -45,16 +45,16 @@ export default function (mongoose) {
     model = mongoose.model('Todo', TodoSchema);
 
     // setTimeout(async () => {
-    //   if (await model.count() <= 5) {
-    //     for (let i = 0; i <= 5; i++) {
+    //   await model.remove({});
+    //   if (await model.count() <= 10) {
+    //     for (let i = 0; i <= 10; i++) {
     //       await model.create({
     //         title: `go to sleep ${i}`,
     //         done: false,
-    //         owner: '58bc301af30fc10b953fb094',
+    //         owner: Math.random() * 100 > 50 ? '58bc301af30fc10b953fb094' : '58bcde603da2523004d06179',
     //       });
     //     }
     //   }
-    //   console.log(await model.remove({}));
     //   console.log(await model.find({}));
     // }, 0);
   }

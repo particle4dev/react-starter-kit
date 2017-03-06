@@ -34,12 +34,21 @@ export default function (mongoose) {
     }
     model = mongoose.model('User', UserSchema);
     // setTimeout(async () => {
+    //   await model.remove({})
     //   if (await model.count() < 1) {
-    //     for (let i = 0; i < 1; i++) {
-    //       await model.create({
-    //         _id: new ObjectId('58bc301af30fc10b953fb094'),
-    //         username: `particle4dev`
-    //       });
+    //     for (let i = 0; i < 2; i++) {
+    //       if (i == 0) {
+    //         await model.create({
+    //           _id: '58bc301af30fc10b953fb094',
+    //           username: `particle4dev${i}`
+    //         });
+    //       }
+    //       if (i == 1) {
+    //         await model.create({
+    //           _id: '58bcde603da2523004d06179',
+    //           username: `particle4dev${i}`
+    //         });
+    //       }
     //     }
     //   }
     //   console.log(await model.find({}));
