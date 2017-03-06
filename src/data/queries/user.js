@@ -1,6 +1,5 @@
 import {
   GraphQLString as StringType,
-  GraphQLList,
 } from 'graphql';
 import UserSchemas from '../schemas/UserSchemas';
 import {
