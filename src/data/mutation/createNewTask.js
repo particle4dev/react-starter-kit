@@ -15,7 +15,7 @@ const createNewTask = {
     title: { type: StringType },
   },
   resolve: async ({ request }, { title }) => {
-    console.warn('handing error', title);
+    console.warn('handing error');
     return await TodosModel().create({
       title,
     });

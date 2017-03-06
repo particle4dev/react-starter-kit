@@ -15,7 +15,7 @@
 
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
+import { User, UserLogin, UserClaim, UserProfile, UsersModel } from '../data/models';
 import { auth as config } from '../config';
 
 /**
@@ -32,6 +32,34 @@ passport.use(new FacebookStrategy({
   const loginName = 'facebook';
   const claimType = 'urn:facebook:access_token';
   const fooBar = async () => {
+    if (req.user) {
+      const userLogin = await UsersModel().findOne({
+        'emails.address': req.user.email
+      });
+      console.log(userLogin, 'userLogin');
+      if (userLogin) {
+        // There is already a Facebook account that belongs to you.
+        // Sign in with that account or delete it, then link it with your current account.
+        done();
+      }
+      else {
+        const user = await UsersModel().create({
+          emails: {
+            address: profile._json.email,
+            verified: true,
+          },
+          username: profile._json.email.replace(/@.*$/,''),
+          profile: {
+            picture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
+          }
+        });
+        done(null, {
+          id: user._id,
+          email: user.emails.address,
+        });
+      }
+    }
+    return done();
     if (req.user) {
       const userLogin = await UserLogin.findOne({
         attributes: ['name', 'key'],

@@ -15,12 +15,12 @@ import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
 import Row from '../../components/Row';
 import Container from '../../components/Container';
-
+import Profile from './Profile';
 import s from './Home.css';
 import gql from 'graphql-tag';
 
 const newsQuery = gql`query newsQuery {
-  todos (limit: 3) {
+  todos (limit: 20) {
     _id,
     title,
     done
@@ -87,6 +87,7 @@ class Home extends React.Component {
                 done={item.done} />
             ))}
           </Container>
+          <Profile />
         </div>
       </div>
     );

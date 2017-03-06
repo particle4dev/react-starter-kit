@@ -7,11 +7,28 @@ import {
 const { Schema } = mongoose;
 const { Types: { ObjectId } } = Schema;
 
+const EmailSchema = new Schema({
+  address: {
+    type: String,
+    required: true,
+    sparse: true,
+  },
+  verified: {
+    type: Boolean,
+    required: true,
+  },
+}, {
+  _id: false,
+});
+
 const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
   },
+  emails: EmailSchema,
+  profile: Schema.Types.Mixed,
+
 });
 
 // indexes
@@ -40,13 +57,21 @@ export default function (mongoose) {
     //       if (i == 0) {
     //         await model.create({
     //           _id: '58bc301af30fc10b953fb094',
-    //           username: `particle4dev${i}`
+    //           username: `particle4dev${i}`,
+    //           emails: {
+    //             address: `particle4dev${i}@gmail.com`,
+    //             verified: true
+    //           }
     //         });
     //       }
     //       if (i == 1) {
     //         await model.create({
     //           _id: '58bcde603da2523004d06179',
-    //           username: `particle4dev${i}`
+    //           username: `particle4dev${i}`,
+    //           emails: {
+    //             address: `particle4dev${i}@gmail.com`,
+    //             verified: true
+    //           }
     //         });
     //       }
     //     }

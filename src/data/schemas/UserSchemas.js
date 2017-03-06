@@ -13,6 +13,16 @@ import {
   FriendsModel,
 } from '../models';
 
+const ProfileSchemas = new GraphQLObjectType({
+  name: 'ProfileSchemas',
+  description: 'ProfileSchemas',
+  fields: () => ({
+    picture: {
+      type: GraphQLString,
+    }
+  })
+});
+
 const UserSchemas = new GraphQLObjectType({
   name: 'UserSchemas',
   interfaces: [UserInterface],
@@ -25,6 +35,9 @@ const UserSchemas = new GraphQLObjectType({
     username: {
       type: GraphQLString,
       // resolve: (user) => user._id,
+    },
+    profile:{
+      type: ProfileSchemas,
     },
     todos: {
       type: new GraphQLList(TodoSchemas),
