@@ -19,7 +19,7 @@ import Container from '../../components/Container';
 import Profile from './Profile';
 import Friends from './Friends';
 import FriendSuggestions from './FriendSuggestions';
-import { Grid, Row as R, Col } from 'react-bootstrap'
+import { Grid, Row as R, Col, Clearfix } from 'react-bootstrap'
 
 import s from './Home.css';
 import gql from 'graphql-tag';
@@ -131,7 +131,9 @@ class Home extends React.Component {
               </Col>
               <Col xs={6} md={4}>
                 {!loading && <Profile me={filter(Profile.fragments.myprofile, me)} /> }
+                <Clearfix />
                 {!loading && <Friends removeFriend={this.props.removeFriend} friends={filter(Friends.fragments.myfriends, me)} /> }
+                <Clearfix />
                 {!loading && <FriendSuggestions addFriend={this.props.addFriend} friends={filter(FriendSuggestions.fragments.myfriendsuggestions, me)} /> }
               </Col>
             </R>
@@ -185,6 +187,9 @@ export default compose(
                 friends: {
                   $unshift: [newFriend],
                 },
+                totalFriends: {
+                  $set: ++previousResult.me.totalFriends
+                },
                 friendSuggestions: {
                   $unset: [newFriend._id],
                 }
@@ -200,9 +205,29 @@ export default compose(
     props: ({ mutate }) => ({
       removeFriend: _id => mutate({
         variables: { _id },
-        refetchQueries: [{
-          query: homePageQuery,
-        }],
+        // refetchQueries: [{
+        //   query: homePageQuery,
+        // }],
+        updateQueries: {
+          // Would update the query that looks like:
+          // query CommentQuery { ... }
+          homePageQuery: (previousResult, { mutationResult }) => {
+            const newFriend = mutationResult.data.removeFriend;
+            return update(previousResult, {
+              me: {
+                friendSuggestions: {
+                  $unshift: [newFriend],
+                },
+                totalFriends: {
+                  $set: --previousResult.me.totalFriends
+                },
+                friends: {
+                  $unset: [newFriend._id],
+                }
+              },
+            });
+          },
+        },
       }),
     }),
   }),

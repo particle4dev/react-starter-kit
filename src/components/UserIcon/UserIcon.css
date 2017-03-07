@@ -1,0 +1,23 @@
+.usericon {
+  width: 25%;
+  font-size: 12px;
+  float: left;
+  padding: 7.5px;
+  color: #333;
+}
+.username {
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.username small {
+  display: block;
+  font-size: 11px;
+  color: #707478;
+  margin-top: 3px;
+}
+.image {
+  width: 50px;
+  height: 50px;
+}

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
-import { Panel, Button, Image } from 'react-bootstrap'
+import UserIcon from '../../components/UserIcon';
 
 class FriendSuggestions extends React.Component {
 
@@ -28,13 +28,16 @@ class FriendSuggestions extends React.Component {
     const { friends: { friendSuggestions }, addFriend } = this.props;
     return (
       <div>
-        Friend Suggestions
+        Friend Suggestions  <br />
         {friendSuggestions.map(item => (
-          <div key={item._id}>
-            {item.username}
-            <Image style={{width: 50, height: 50}} src={item.profile.picture} circle />
-            <Button bsStyle="primary" onClick={() => addFriend(item._id)}> Add Friend </Button>
-          </div>
+          <UserIcon
+            avatar={item.profile.picture}
+            key={item._id}
+            username={item.username}
+            onClick={(evt) => {
+              evt.preventDefault();
+              addFriend(item._id);
+            }} />
         ))}
       </div>
     );

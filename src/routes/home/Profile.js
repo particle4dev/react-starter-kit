@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
-import { Panel, Image } from 'react-bootstrap'
+import { Panel, Image, Clearfix } from 'react-bootstrap'
 
 class Profile extends React.Component {
 
@@ -30,12 +30,29 @@ class Profile extends React.Component {
   render() {
     const { me } = this.props;
     return (
-      <div>
-        Profile <br />
-        ID | { me._id } <br />
-        Username | { me.username } <br />
-        <Image src={me.profile.picture} />
-      </div>
+      <Panel style={{
+        backgroundColor: '#f05050',
+        color: '#ffffff',
+      }}>
+        <div className='text-center'>
+          <Clearfix>
+            <div className="pull-left">200 Following</div>
+            <div className="pull-right">150 Followers</div>
+          </Clearfix>
+          <Image src={me.profile.picture} style={{
+            width: '96px',
+            height: '96px'
+          }} circle/>
+          <h4>{me.username}</h4>
+          <p>
+            San Francisco, California
+          </p>
+          <Clearfix>
+            <div className="pull-left">15k Likes</div>
+            <div className="pull-right">100 Feeds</div>
+          </Clearfix>
+        </div>
+      </Panel>
     );
   }
 }

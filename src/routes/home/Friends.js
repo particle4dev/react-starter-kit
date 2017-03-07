@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
-import { Panel, Button, Image } from 'react-bootstrap'
+import { Label } from 'react-bootstrap'
+import UserIcon from '../../components/UserIcon';
 
 class Friends extends React.Component {
 
@@ -30,16 +31,16 @@ class Friends extends React.Component {
     return (
       <div>
         Friend <br />
-        Total { friends.totalFriends } <br />
+        <Label bsStyle="success">{ friends.totalFriends } friends</Label><br />
         {friends.friends.map(item => (
-          <div key={item._id}>
-            {item.username}
-            <Image style={{width: 50, height: 50}} src={item.profile.picture} circle />
-            <Button bsStyle="primary" onClick={(evt) => {
+          <UserIcon
+            avatar={item.profile.picture}
+            key={item._id}
+            username={item.username}
+            onClick={(evt) => {
               evt.preventDefault();
               removeFriend(item._id);
-            }}> Remove </Button>
-          </div>
+            }} />
         ))}
       </div>
     );
