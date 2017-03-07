@@ -15,9 +15,15 @@ import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
 import Row from '../../components/Row';
 import Container from '../../components/Container';
+
 import Profile from './Profile';
+import Friends from './Friends';
+import FriendSuggestions from './FriendSuggestions';
+import { Grid, Row as R, Col } from 'react-bootstrap'
+
 import s from './Home.css';
 import gql from 'graphql-tag';
+import { filter } from 'graphql-anywhere'
 
 const newsQuery = gql`query newsQuery {
   todos (limit: 20) {
@@ -25,8 +31,16 @@ const newsQuery = gql`query newsQuery {
     title,
     done
   }
-}`;
-
+  me {
+    ...MyProfile
+    ...MyFriends
+    ...FriendSuggestions
+  }
+}
+${Profile.fragments.myprofile}
+${Friends.fragments.myfriends}
+${FriendSuggestions.fragments.myfriendsuggestions}
+`;
 const makeTaskDone = gql`mutation makeTaskDone ($_id: String!) {
   makeTaskDone(_id: $_id) {
     _id,
@@ -70,24 +84,35 @@ class Home extends React.Component {
   }
 
   render() {
-    const { data: { loading, todos } } = this.props;
+    const { data: { loading, todos, me } } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1>React.js News</h1>
-          <Container>
-            <NewTask open onClick={this.createNewTask} />
-            {/** <AddButton onClick={this.onClick} />*/}
-            {!loading && todos.map(item => (
-              <Row key={item._id}
-                _id={item._id}
-                title={item.title}
-                onUpdate={() => this.props.makeTaskDone(item._id)}
-                onRemove={() => this.props.deleteTask(item._id)}
-                done={item.done} />
-            ))}
-          </Container>
-          <Profile />
+          <Grid>
+            <R className="show-grid">
+              <Col xs={12} md={8}>
+                <Container>
+                  <NewTask open onClick={this.createNewTask} />
+                  {/** <AddButton onClick={this.onClick} />*/}
+                  {!loading && todos.map(item => (
+                    <Row key={item._id}
+                      _id={item._id}
+                      title={item.title}
+                      onUpdate={() => this.props.makeTaskDone(item._id)}
+                      onRemove={() => this.props.deleteTask(item._id)}
+                      done={item.done} />
+                  ))}
+                </Container>
+              </Col>
+              <Col xs={6} md={4}>
+                {!loading && <Profile me={filter(Profile.fragments.myprofile, me)} /> }
+                {!loading && <Friends friends={filter(Friends.fragments.myfriends, me)} /> }
+                {!loading && <FriendSuggestions friends={filter(FriendSuggestions.fragments.myfriendsuggestions, me)} /> }
+              </Col>
+            </R>
+          </Grid>
+
         </div>
       </div>
     );
