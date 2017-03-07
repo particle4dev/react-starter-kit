@@ -60,7 +60,10 @@ export default function (mongoose) {
     //           username: `particle4dev${i}`,
     //           emails: {
     //             address: `particle4dev${i}@gmail.com`,
-    //             verified: true
+    //             verified: true,
+    //           },
+    //           profile: {
+    //             picture: 'https://resizing.flixster.com/kXU09EtyP2WYQq2MeEAkevOEgO4=/206x305/v1.bTsxMTE3Njc5MjtqOzE3MzE5OzEyMDA7ODAwOzEyMDA'
     //           }
     //         });
     //       }
@@ -71,6 +74,9 @@ export default function (mongoose) {
     //           emails: {
     //             address: `particle4dev${i}@gmail.com`,
     //             verified: true
+    //           },
+    //           profile: {
+    //             picture: 'https://pbs.twimg.com/profile_images/720683079568719872/H3_213o5.jpg'
     //           }
     //         });
     //       }

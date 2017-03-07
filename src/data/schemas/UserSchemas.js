@@ -44,12 +44,23 @@ const UserSchemas = new GraphQLObjectType({
       resolve: (user) => TodosModel().find({owner: user._id}),
     },
     friends: {
-      type: new GraphQLList(UserInterface),
+      type: new GraphQLList(UserSchemas),
       resolve: async (user) => {
         let friendListByIds = await FriendsModel().find({user: user._id}).select('friend _id');
         friendListByIds = friendListByIds.map((v) => v.friend);
         return UsersModel().find({
           _id: {$in: friendListByIds}
+        });
+      },
+    },
+    friendSuggestions: {
+      type: new GraphQLList(UserSchemas),
+      resolve: async (user) => {
+        let friendListByIds = await FriendsModel().find({user: user._id}).select('friend _id');
+        friendListByIds = friendListByIds.map((v) => v.friend);
+        friendListByIds.push(user._id);
+        return UsersModel().find({
+          _id: {$nin: friendListByIds}
         });
       },
     },
