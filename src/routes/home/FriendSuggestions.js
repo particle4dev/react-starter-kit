@@ -25,17 +25,18 @@ class FriendSuggestions extends React.Component {
   };
 
   render() {
-    const { friends: { friendSuggestions } } = this.props;
+    const { friends: { friendSuggestions }, addFriend } = this.props;
     return (
-      <Panel header='Friend Suggestions'>
+      <div>
+        Friend Suggestions
         {friendSuggestions.map(item => (
           <div key={item._id}>
             {item.username}
             <Image style={{width: 50, height: 50}} src={item.profile.picture} circle />
-            <Button bsStyle="primary"> Add Friend </Button>
+            <Button bsStyle="primary" onClick={() => addFriend(item._id)}> Add Friend </Button>
           </div>
         ))}
-      </Panel>
+      </div>
     );
   }
 }

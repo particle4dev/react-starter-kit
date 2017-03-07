@@ -18,6 +18,7 @@ const createNewTask = {
     console.warn('handing error');
     return await TodosModel().create({
       title,
+      owner: request.user.id,
     });
   },
 };

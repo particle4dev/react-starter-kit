@@ -41,7 +41,12 @@ const UserSchemas = new GraphQLObjectType({
     },
     todos: {
       type: new GraphQLList(TodoSchemas),
-      resolve: (user) => TodosModel().find({owner: user._id}),
+      resolve: async (user) => {
+        let friendListByIds = await FriendsModel().find({user: user._id}).select('friend _id');
+        friendListByIds = friendListByIds.map((v) => v.friend);
+        friendListByIds.push(user._id);
+        return TodosModel().find({owner: friendListByIds});
+      },
     },
     friends: {
       type: new GraphQLList(UserSchemas),

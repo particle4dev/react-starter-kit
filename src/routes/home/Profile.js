@@ -30,11 +30,12 @@ class Profile extends React.Component {
   render() {
     const { me } = this.props;
     return (
-      <Panel header='My Profile'>
+      <div>
+        Profile <br />
         ID | { me._id } <br />
         Username | { me.username } <br />
         <Image src={me.profile.picture} />
-      </Panel>
+      </div>
     );
   }
 }

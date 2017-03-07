@@ -17,6 +17,8 @@ import queries from './queries';
 import makeTaskDone from './mutation/makeTaskDone';
 import createNewTask from './mutation/createNewTask';
 import deleteTask from './mutation/deleteTask';
+import addFriend from './mutation/users/addFriend';
+import removeFriend from './mutation/users/removeFriend';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -29,6 +31,8 @@ const schema = new Schema({
       makeTaskDone,
       createNewTask,
       deleteTask,
+      addFriend,
+      removeFriend,
     },
   }),
 });

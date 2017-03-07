@@ -24,14 +24,23 @@ import { Grid, Row as R, Col } from 'react-bootstrap'
 import s from './Home.css';
 import gql from 'graphql-tag';
 import { filter } from 'graphql-anywhere'
+import update from 'immutability-helper'
+update.extend('$unset', function(_idsToRemove, original) {
+  return original.filter((v) => _idsToRemove.indexOf(v._id) === -1);
+});
 
-const newsQuery = gql`query newsQuery {
+const homePageQuery = gql`query homePageQuery {
   todos (limit: 20) {
     _id,
     title,
     done
   }
   me {
+    todos {
+      _id,
+      title,
+      done
+    }
     ...MyProfile
     ...MyFriends
     ...FriendSuggestions
@@ -62,15 +71,30 @@ const deleteTask = gql`mutation deleteTask ($_id: String!) {
   }
 }`;
 
+const addFriend = gql`mutation addFriend ($_id: String!) {
+  addFriend(_id: $_id) {
+    _id
+    username
+    profile {
+      picture
+    }
+  }
+}`;
+
+const removeFriend = gql`mutation removeFriend ($_id: String!) {
+  removeFriend(_id: $_id) {
+    _id
+    username
+    profile {
+      picture
+    }
+  }
+}`;
+
 class Home extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      news: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired,
-        content: PropTypes.string,
-      })),
       todos: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
       })),
@@ -95,7 +119,7 @@ class Home extends React.Component {
                 <Container>
                   <NewTask open onClick={this.createNewTask} />
                   {/** <AddButton onClick={this.onClick} />*/}
-                  {!loading && todos.map(item => (
+                  {!loading && me.todos.map(item => (
                     <Row key={item._id}
                       _id={item._id}
                       title={item.title}
@@ -107,8 +131,8 @@ class Home extends React.Component {
               </Col>
               <Col xs={6} md={4}>
                 {!loading && <Profile me={filter(Profile.fragments.myprofile, me)} /> }
-                {!loading && <Friends friends={filter(Friends.fragments.myfriends, me)} /> }
-                {!loading && <FriendSuggestions friends={filter(FriendSuggestions.fragments.myfriendsuggestions, me)} /> }
+                {!loading && <Friends removeFriend={this.props.removeFriend} friends={filter(Friends.fragments.myfriends, me)} /> }
+                {!loading && <FriendSuggestions addFriend={this.props.addFriend} friends={filter(FriendSuggestions.fragments.myfriendsuggestions, me)} /> }
               </Col>
             </R>
           </Grid>
@@ -121,29 +145,74 @@ class Home extends React.Component {
 
 export default compose(
   withStyles(s),
-  // graphql(newsQuery, {  options: { pollInterval: 20000 }}),
-  graphql(newsQuery),
+  graphql(homePageQuery, {  options: { pollInterval: 20000 }}),
+  // graphql(homePageQuery),
+
   graphql(makeTaskDone, {
     props: ({ mutate }) => ({
+      // update
       makeTaskDone: _id => mutate({ variables: { _id } }),
     }),
   }),
+
   graphql(createNewTask, {
     props: ({ mutate }) => ({
       createNewTask: title => mutate({
         variables: { title },
         refetchQueries: [{
-          query: newsQuery,
+          query: homePageQuery,
         }],
       }),
     }),
   }),
+
+  graphql(addFriend, {
+    props: ({ mutate }) => ({
+      addFriend: _id => mutate({
+        variables: { _id },
+        // refetchQueries: [{
+        //   query: homePageQuery,
+        // }],
+        updateQueries: {
+          // Would update the query that looks like:
+          // query CommentQuery { ... }
+          homePageQuery: (previousResult, { mutationResult }) => {
+            console.log(mutationResult, previousResult, 'aaa');
+            const newFriend = mutationResult.data.addFriend;
+            console.log(newFriend._id, 'newFriend._id');
+            return update(previousResult, {
+              me: {
+                friends: {
+                  $unshift: [newFriend],
+                },
+                friendSuggestions: {
+                  $unset: [newFriend._id],
+                }
+              },
+            });
+          },
+        },
+      }),
+    }),
+  }),
+
+  graphql(removeFriend, {
+    props: ({ mutate }) => ({
+      removeFriend: _id => mutate({
+        variables: { _id },
+        refetchQueries: [{
+          query: homePageQuery,
+        }],
+      }),
+    }),
+  }),
+
   graphql(deleteTask, {
     props: ({ mutate }) => ({
       deleteTask: _id => mutate({
         variables: { _id },
         refetchQueries: [{
-          query: newsQuery,
+          query: homePageQuery,
         }],
       }),
     }),

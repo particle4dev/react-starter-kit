@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { propType } from 'graphql-anywhere'
-import { Panel, Image } from 'react-bootstrap'
+import { Panel, Button, Image } from 'react-bootstrap'
 
 class Friends extends React.Component {
 
@@ -10,7 +10,11 @@ class Friends extends React.Component {
     myfriends: gql`
       fragment MyFriends on UserSchemas {
         friends {
+          _id
           username
+          profile {
+            picture
+          }
         }
         totalFriends
       }
@@ -22,11 +26,22 @@ class Friends extends React.Component {
   };
 
   render() {
-    const { friends } = this.props;
+    const { friends, removeFriend } = this.props;
     return (
-      <Panel header=" My Friends">
+      <div>
+        Friend <br />
         Total { friends.totalFriends } <br />
-      </Panel>
+        {friends.friends.map(item => (
+          <div key={item._id}>
+            {item.username}
+            <Image style={{width: 50, height: 50}} src={item.profile.picture} circle />
+            <Button bsStyle="primary" onClick={(evt) => {
+              evt.preventDefault();
+              removeFriend(item._id);
+            }}> Remove </Button>
+          </div>
+        ))}
+      </div>
     );
   }
 }
