@@ -1,9 +1,10 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import styles from './Post.css';
+import Link from '../Link';
 
 function Post({ ...props }) {
-  const { data: {title, owner: { username }} } = props;
+  const { data: {_id, title, owner: { username }} } = props;
   return (
     <div className={styles.streamPost}>
       <div className={styles.spAuthor}>
@@ -15,7 +16,9 @@ function Post({ ...props }) {
         <h6 className="sp-author-name">{ username }</h6>
       </div>
        <div className={styles.spContent}>
-          <div className="sp-info">posted 1h ago</div>
+          <Link to={`posts/${_id}`}>
+            <div className="sp-info">posted 1h ago</div>
+          </Link>
           <p className="sp-paragraph mb-0">
             {title}
           </p>

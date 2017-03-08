@@ -12,7 +12,7 @@ import User from './User';
 import UserLogin from './UserLogin';
 import UserClaim from './UserClaim';
 import UserProfile from './UserProfile';
-import TodosModel from './TodosModel';
+import PostsModel from './PostsModel';
 import UsersModel from './UsersModel';
 import FriendsModel from './FriendsModel';
 
@@ -43,4 +43,4 @@ function sync(...args) {
 
 export default { sync };
 
-export { User, UserLogin, UserClaim, UserProfile, TodosModel, UsersModel, FriendsModel };
+export { User, UserLogin, UserClaim, UserProfile, PostsModel, UsersModel, FriendsModel };

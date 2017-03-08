@@ -10,11 +10,11 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { graphql, compose } from 'react-apollo';
-import s from './TaskDetail.css';
+import s from './PostDetail.css';
 
 import gql from 'graphql-tag';
-const getTask = gql`query todo ($_id: String!) {
-  todo (_id: $_id) {
+const getPost = gql`query postDetailQuery ($_id: String!) {
+  post (_id: $_id) {
     _id,
     title,
     done,
@@ -30,16 +30,15 @@ class TaskDetail extends React.Component {
   };
 
   render() {
-    const {title, data: { loading, todo }} = this.props;
-    console.log(loading, 'loading');
+    const {title, data: { loading, post }} = this.props;
     return (
       <div className={s.root}>
         {!loading && <div className={s.container}>
           <h1>{title}</h1>
-          <p>id: {todo._id}</p>
-          <p>title: {todo.title}</p>
-          <p>done: {todo.done}</p>
-          <p>owner.username: {todo.owner.username}</p>
+          <p>id: {post._id}</p>
+          <p>title: {post.title}</p>
+          <p>done: {post.done}</p>
+          <p>owner.username: {post.owner.username}</p>
         </div>}
       </div>
     );
@@ -48,11 +47,11 @@ class TaskDetail extends React.Component {
 
 export default compose(
   withStyles(s),
-  graphql(getTask, {
+  graphql(getPost, {
     options: (ownProps) => {
       return {
         variables: {
-          _id: ownProps.taskId
+          _id: ownProps.postId
         }
       };
     }

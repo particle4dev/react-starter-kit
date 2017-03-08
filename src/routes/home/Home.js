@@ -28,15 +28,15 @@ update.extend('$unset', function(_idsToRemove, original) {
 });
 
 const homePageQuery = gql`query homePageQuery {
+  feeds {
+    _id,
+    title,
+    owner {
+      username
+    },
+    done
+  }
   me {
-    todos {
-      _id,
-      title,
-      owner {
-        username
-      },
-      done
-    }
     ...MyProfile
     ...MyFriends
     ...FriendSuggestions
@@ -101,7 +101,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { data: { loading, todos, me } } = this.props;
+    const { data: { loading, feeds, me } } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
@@ -112,8 +112,8 @@ class Home extends React.Component {
                 <NewTask open onClick={this.createNewTask} />
                 <div className="stream-posts">
 
-                  {!loading && me.todos.map(item => (
-                    <Post data={item}/>
+                  {!loading && feeds.map(item => (
+                    <Post key={item._id} data={item}/>
                   ))}
                 </div>
 

@@ -7,7 +7,7 @@ import {
 const { Schema } = mongoose;
 const { Types: { ObjectId } } = Schema;
 
-const TodoSchema = new Schema({
+const PostsSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -25,15 +25,15 @@ const TodoSchema = new Schema({
 });
 
 // indexes
-// TodoSchema.index({
+// PostsSchema.index({
 //   'title': 1
 // });
 
 // plugins
-TodoSchema.plugin(timestamps);
+PostsSchema.plugin(timestamps);
 
 // methods
-// TodoSchema.statics.createANewToken = function () {}
+// PostsSchema.statics.createANewToken = function () {}
 
 let model = null;
 
@@ -42,7 +42,7 @@ export default function (mongoose) {
     if (!mongoose) {
       mongoose = connectPrimaryData();
     }
-    model = mongoose.model('Todo', TodoSchema);
+    model = mongoose.model('Post', PostsSchema);
 
     // setTimeout(async () => {
     //   await model.remove({});

@@ -4,9 +4,9 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 
-const TodoInterface = new GraphQLInterfaceType({
-  name: 'TodoInterface',
-  description: 'TodoInterface',
+const PostInterface = new GraphQLInterfaceType({
+  name: 'PostInterface',
+  description: 'PostInterface',
   fields: () => ({
     title: {
       type: GraphQLString
@@ -16,8 +16,8 @@ const TodoInterface = new GraphQLInterfaceType({
     }
   }),
   resolveType: (obj) => {
-    return 'TodoSchemas';
+    return 'PostSchemas';
   }
 });
 
-export default TodoInterface;
+export default PostInterface;

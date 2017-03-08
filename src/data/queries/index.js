@@ -1,12 +1,12 @@
-import todo from './todo';
-import todos from './todos';
+import post from './post';
+import feeds from './feeds';
 import user from './user';
 import users from './users';
 import me from './me';
 
 export default {
-  todo,
-  todos,
+  post,
+  feeds,
   user,
   users,
   me,

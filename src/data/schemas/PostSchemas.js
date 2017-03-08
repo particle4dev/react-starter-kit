@@ -7,15 +7,15 @@ import {
 } from 'graphql';
 
 import UserInterface from './UserInterface';
-import TodoInterface from './TodoInterface';
+import PostInterface from './PostInterface';
 
 import {
   UsersModel,
 } from '../models';
 
-const TodoSchemas = new ObjectType({
-  name: 'TodoSchemas',
- interfaces: [TodoInterface],
+const PostSchemas = new ObjectType({
+  name: 'PostSchemas',
+ interfaces: [PostInterface],
   fields: {
     _id: { type: new NonNull(ID) },
     title: { type: StringType },
@@ -27,4 +27,4 @@ const TodoSchemas = new ObjectType({
   },
 });
 
-export default TodoSchemas;
+export default PostSchemas;

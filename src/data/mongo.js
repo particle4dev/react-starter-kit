@@ -52,7 +52,7 @@ export function connect(uri, options, cb) {
 // Mongo
 let primaryData = null;
 import {
-  TodosModel,
+  PostsModel,
   UsersModel,
   FriendsModel,
 } from './models';
@@ -65,7 +65,7 @@ export function connectPrimaryData(uri, options) {
     options = db ? db.options : options;
     primaryData = connect(uri, options, () => {});
 
-    TodosModel(primaryData);
+    PostsModel(primaryData);
     UsersModel(primaryData);
     FriendsModel(primaryData);
   }

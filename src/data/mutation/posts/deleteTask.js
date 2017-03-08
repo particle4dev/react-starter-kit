@@ -6,19 +6,21 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
-import TodoSchemas from '../schemas/TodoSchemas';
-import { TodosModel } from '../models';
+import PostSchemas from '../../schemas/PostSchemas';
+import { PostsModel } from '../../models';
 
-const makeTaskDone = {
-  type: TodoSchemas,
+const deleteTask = {
+  type: PostSchemas,
   args: {
     _id: { type: StringType },
   },
   resolve: async ({ request }, { _id }) => {
     console.warn('handing error');
-    const r = await TodosModel().update({ _id }, { $set: { done: true } });
-    return await TodosModel().findOne({ _id });
+    await PostsModel().remove({ _id });
+    return {
+      _id,
+    };
   },
 };
 
-export default makeTaskDone;
+export default deleteTask;

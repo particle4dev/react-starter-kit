@@ -9,18 +9,18 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import TaskDetail from './TaskDetail';
+import PostDetail from './PostDetail';
 
-const title = 'Task Detail';
+const title = 'Post Detail';
 
 export default {
 
-  path: '/tasks/:id',
+  path: '/posts/:id',
 
   action(ctx, { id }) {
     return {
       title,
-      component: <Layout><TaskDetail title={title} taskId={id}/></Layout>,
+      component: <Layout><PostDetail title={title} postId={id}/></Layout>,
     };
   },
 

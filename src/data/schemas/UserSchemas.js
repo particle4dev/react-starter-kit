@@ -6,9 +6,9 @@ import {
 } from 'graphql';
 
 import UserInterface from './UserInterface';
-import TodoSchemas from './TodoSchemas';
+import PostSchemas from './PostSchemas';
 import {
-  TodosModel,
+  PostsModel,
   UsersModel,
   FriendsModel,
 } from '../models';
@@ -39,13 +39,10 @@ const UserSchemas = new GraphQLObjectType({
     profile:{
       type: ProfileSchemas,
     },
-    todos: {
-      type: new GraphQLList(TodoSchemas),
+    posts: {
+      type: new GraphQLList(PostSchemas),
       resolve: async (user) => {
-        let friendListByIds = await FriendsModel().find({user: user._id}).select('friend _id');
-        friendListByIds = friendListByIds.map((v) => v.friend);
-        friendListByIds.push(user._id);
-        return TodosModel().find({owner: friendListByIds});
+        return PostsModel().find({owner: user._id});
       },
     },
     friends: {

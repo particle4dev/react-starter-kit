@@ -6,17 +6,17 @@ import {
   GraphQLBoolean as Boolean,
 } from 'graphql';
 
-import TodoSchemas from '../schemas/TodoSchemas';
-import { TodosModel } from '../models';
+import PostSchemas from '../../schemas/PostSchemas';
+import { PostsModel } from '../../models';
 
 const createNewTask = {
-  type: TodoSchemas,
+  type: PostSchemas,
   args: {
     title: { type: StringType },
   },
   resolve: async ({ request }, { title }) => {
     console.warn('handing error');
-    return await TodosModel().create({
+    return await PostsModel().create({
       title,
       owner: request.user.id,
     });
