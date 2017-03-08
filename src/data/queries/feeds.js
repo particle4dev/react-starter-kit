@@ -6,6 +6,7 @@ import {
 import PostSchemas from '../schemas/PostSchemas';
 import {
   PostsModel,
+  FriendsModel,
 } from '../models';
 
 console.warn('implement paging feeds');
@@ -15,7 +16,7 @@ const feeds = {
   args: {
     limit: { type: IntType },
   },
-  resolve({ request }, {limit}) {
+  resolve: async ({ request }, {limit}) => {
     const userId = request.user.id;
     let friendListByIds = await FriendsModel().find({user: userId}).select('friend _id');
     friendListByIds = friendListByIds.map((v) => v.friend);

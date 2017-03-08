@@ -33,6 +33,9 @@ const homePageQuery = gql`query homePageQuery {
     title,
     owner {
       username
+      profile {
+        picture
+      }
     },
     done
   }
@@ -168,9 +171,7 @@ export default compose(
           // Would update the query that looks like:
           // query CommentQuery { ... }
           homePageQuery: (previousResult, { mutationResult }) => {
-            console.log(mutationResult, previousResult, 'aaa');
             const newFriend = mutationResult.data.addFriend;
-            console.log(newFriend._id, 'newFriend._id');
             return update(previousResult, {
               me: {
                 friends: {

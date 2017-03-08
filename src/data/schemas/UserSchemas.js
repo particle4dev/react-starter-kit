@@ -7,21 +7,13 @@ import {
 
 import UserInterface from './UserInterface';
 import PostSchemas from './PostSchemas';
+import ProfileSchemas from './ProfileSchemas';
+
 import {
   PostsModel,
   UsersModel,
   FriendsModel,
 } from '../models';
-
-const ProfileSchemas = new GraphQLObjectType({
-  name: 'ProfileSchemas',
-  description: 'ProfileSchemas',
-  fields: () => ({
-    picture: {
-      type: GraphQLString,
-    }
-  })
-});
 
 const UserSchemas = new GraphQLObjectType({
   name: 'UserSchemas',

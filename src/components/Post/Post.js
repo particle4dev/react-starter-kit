@@ -4,14 +4,12 @@ import styles from './Post.css';
 import Link from '../Link';
 
 function Post({ ...props }) {
-  const { data: {_id, title, owner: { username }} } = props;
+  const { data: {_id, title, owner: { username, profile: {picture} }} } = props;
   return (
     <div className={styles.streamPost}>
       <div className={styles.spAuthor}>
         <a href="#" className={styles.spAuthorAvatar}>
-          <img
-            src="https://resizing.flixster.com/kXU09EtyP2WYQq2MeEAkevOEgO4=/206x305/v1.bTsxMTE3Njc5MjtqOzE3MzE5OzEyMDA7ODAwOzEyMDA"
-            alt="" />
+          <img src={picture} alt="" />
         </a>
         <h6 className="sp-author-name">{ username }</h6>
       </div>
