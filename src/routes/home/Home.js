@@ -15,6 +15,7 @@ import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
 import Row from '../../components/Row';
 import Container from '../../components/Container';
+import Post from '../../components/Post';
 
 import Profile from './Profile';
 import Friends from './Friends';
@@ -30,15 +31,13 @@ update.extend('$unset', function(_idsToRemove, original) {
 });
 
 const homePageQuery = gql`query homePageQuery {
-  todos (limit: 20) {
-    _id,
-    title,
-    done
-  }
   me {
     todos {
       _id,
       title,
+      owner {
+        username
+      },
       done
     }
     ...MyProfile
@@ -95,9 +94,6 @@ class Home extends React.Component {
   static propTypes = {
     data: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      todos: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-      })),
     }).isRequired,
     // mutate: PropTypes.func.isRequired,
     makeTaskDone: PropTypes.func.isRequired,
@@ -123,11 +119,20 @@ class Home extends React.Component {
                     <Row key={item._id}
                       _id={item._id}
                       title={item.title}
+                      author={item.owner.username}
                       onUpdate={() => this.props.makeTaskDone(item._id)}
                       onRemove={() => this.props.deleteTask(item._id)}
                       done={item.done} />
                   ))}
                 </Container>
+
+                <div className="stream-posts">
+
+                  {!loading && me.todos.map(item => (
+                    <Post data={item}/>
+                  ))}
+                </div>
+
               </Col>
               <Col xs={6} md={4}>
                 {!loading && <Profile me={filter(Profile.fragments.myprofile, me)} /> }

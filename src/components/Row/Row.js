@@ -4,7 +4,7 @@ import styles from './Row.css';
 import Link from '../Link';
 
 function Row({ ...props }) {
-  let { _id, title, onRemove, onUpdate, done } = props;
+  let { _id, title, author, onRemove, onUpdate, done } = props;
   onRemove = onRemove.bind(null, _id);
   onUpdate = onUpdate.bind(null, _id, !done);
   const className = [styles.row, styles.uiSortableHelper];
@@ -20,7 +20,7 @@ function Row({ ...props }) {
         <i className="fa fa-check" />
       </a>
       <Link to={`tasks/${_id}`}>
-        { title }
+        { title } { author }
       </Link>
     </li>
   );

@@ -1,0 +1,32 @@
+.streamPost {
+  position: relative;
+  padding: .75rem;
+  background: #f7f7f9;
+  border: 1px solid #eceeef;
+  border-radius: .25rem;
+  margin-bottom: 1.5rem;
+}
+
+.spAuthor {
+  position: absolute;
+  width: 100%;
+  left: 1rem;
+  top: 1rem;
+}
+
+.spAuthorAvatar {
+  display: inline-block;
+  height: 64px;
+  width: 64px;
+  margin-right: 16px;
+}
+
+.spAuthor img {
+  height: 100%;
+  width: 100%;
+}
+
+.spContent {
+  margin-left: 80px;
+  margin-top: 0;
+}
