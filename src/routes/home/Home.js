@@ -13,7 +13,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
-import Container from '../../components/Container';
 import Post from '../../components/Post';
 
 import Profile from './Profile';
@@ -112,12 +111,7 @@ class Home extends React.Component {
             <R className="show-grid">
               <Col xs={12} md={8}>
                 <NewTask open onClick={this.createNewTask} />
-                <Container>
-
                   {/** <AddButton onClick={this.onClick} />*/}
-
-                </Container>
-
                 <div className="stream-posts">
 
                   {!loading && me.todos.map(item => (
