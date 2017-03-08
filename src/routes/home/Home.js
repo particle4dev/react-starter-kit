@@ -11,7 +11,6 @@ import React, { PropTypes } from 'react';
 import { graphql, compose } from 'react-apollo';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
 import Post from '../../components/Post';
 
@@ -111,7 +110,6 @@ class Home extends React.Component {
             <R className="show-grid">
               <Col xs={12} md={8}>
                 <NewTask open onClick={this.createNewTask} />
-                  {/** <AddButton onClick={this.onClick} />*/}
                 <div className="stream-posts">
 
                   {!loading && me.todos.map(item => (
