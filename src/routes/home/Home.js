@@ -13,7 +13,6 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 import AddButton from '../../components/AddButton';
 import NewTask from '../../components/NewTask';
-import Row from '../../components/Row';
 import Container from '../../components/Container';
 import Post from '../../components/Post';
 
@@ -112,18 +111,11 @@ class Home extends React.Component {
           <Grid>
             <R className="show-grid">
               <Col xs={12} md={8}>
+                <NewTask open onClick={this.createNewTask} />
                 <Container>
-                  <NewTask open onClick={this.createNewTask} />
+
                   {/** <AddButton onClick={this.onClick} />*/}
-                  {!loading && me.todos.map(item => (
-                    <Row key={item._id}
-                      _id={item._id}
-                      title={item.title}
-                      author={item.owner.username}
-                      onUpdate={() => this.props.makeTaskDone(item._id)}
-                      onRemove={() => this.props.deleteTask(item._id)}
-                      done={item.done} />
-                  ))}
+
                 </Container>
 
                 <div className="stream-posts">
