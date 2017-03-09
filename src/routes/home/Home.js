@@ -27,17 +27,23 @@ update.extend('$unset', function(_idsToRemove, original) {
   return original.filter((v) => _idsToRemove.indexOf(v._id) === -1);
 });
 
-const homePageQuery = gql`query homePageQuery {
-  feeds {
-    _id,
-    title,
-    owner {
-      username
-      profile {
-        picture
-      }
-    },
-    done
+const homePageQuery = gql`query homePageQuery ($cursor: String) {
+  feeds (cursor: $cursor) {
+    edges {
+      _id,
+      title,
+      owner {
+        username
+        profile {
+          picture
+        }
+      },
+      done
+    }
+    pageInfo {
+      endCursor,
+      hasNextPage
+    }
   }
   me {
     ...MyProfile
@@ -104,7 +110,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { data: { loading, feeds, me } } = this.props;
+    const { loading, feeds: { edges }, me, loadMoreRows } = this.props;
     return (
       <div className={s.root}>
         <div className={s.container}>
@@ -115,10 +121,12 @@ class Home extends React.Component {
                 <NewTask open onClick={this.createNewTask} />
                 <div className="stream-posts">
 
-                  {!loading && feeds.map(item => (
+                  {!loading && edges.map(item => (
                     <Post key={item._id} data={item}/>
                   ))}
                 </div>
+
+                <button onClick={loadMoreRows}>Load More</button>
 
               </Col>
               <Col xs={6} md={4}>
@@ -139,7 +147,42 @@ class Home extends React.Component {
 
 export default compose(
   withStyles(s),
-  graphql(homePageQuery, {  options: { pollInterval: 20000 }}),
+  graphql(homePageQuery, {
+    options: (props) => {
+      return {
+        variables:{
+          cursor: null,
+        },
+      };
+    },
+    // options: { pollInterval: 20000 }
+    props: ({ ownProps, data }) => {
+      const  { loading, feeds, me, fetchMore } = data;
+      const loadMoreRows = () => {
+        return fetchMore({
+          variables:{
+            cursor: feeds.pageInfo.endCursor,
+          },
+          updateQuery:(previousResult, { fetchMoreResult })=> {
+            const newEdges = fetchMoreResult.data.feeds.edges;
+            const pageInfo = fetchMoreResult.data.feeds.pageInfo;
+            return {
+              feeds:{
+                edges:[...previousResult.feeds.edges, ...newEdges],
+                pageInfo
+              }
+            };
+          }
+        });
+      };
+      return {
+        loading,
+        feeds,
+        me,
+        loadMoreRows
+      };
+    }
+  }),
   // graphql(homePageQuery),
 
   graphql(makeTaskDone, {

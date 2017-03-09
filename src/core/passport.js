@@ -31,16 +31,16 @@ passport.use(new FacebookStrategy({
   /* eslint-disable no-underscore-dangle */
   const loginName = 'facebook';
   const claimType = 'urn:facebook:access_token';
+  console.log(req.user, profile);
   const fooBar = async () => {
     if (req.user) {
       const userLogin = await UsersModel().findOne({
         'emails.address': req.user.email
       });
-      console.log(userLogin, 'userLogin');
       if (userLogin) {
         // There is already a Facebook account that belongs to you.
         // Sign in with that account or delete it, then link it with your current account.
-        done();
+        done(null);
       }
       else {
         const user = await UsersModel().create({
@@ -59,6 +59,34 @@ passport.use(new FacebookStrategy({
         });
       }
     }
+    else {
+      const userLogin = await UsersModel().findOne({
+        'emails.address': profile._json.email,
+      });
+      if (userLogin) {
+        // There is already a Facebook account that belongs to you.
+        // Sign in with that account or delete it, then link it with your current account.
+        done(null);
+      }
+      else {
+        const user = await UsersModel().create({
+          emails: {
+            address: profile._json.email,
+            verified: true,
+          },
+          username: profile._json.email.replace(/@.*$/,''),
+          profile: {
+            picture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
+          }
+        });
+        done(null, {
+          id: user._id,
+          email: user.emails.address,
+        });
+      }
+    }
+
+    // stop
     return done();
     if (req.user) {
       const userLogin = await UserLogin.findOne({
